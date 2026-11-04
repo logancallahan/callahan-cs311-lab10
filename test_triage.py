@@ -27,24 +27,38 @@ class MinHeap:
 
     def insert(self, value: float) -> None:
         """Append `value`, then call _sift_up to restore the heap property."""
-        # TODO
-        raise NotImplementedError
+        self._data.append(value)
+        self._sift_up(len(self._data) - 1)
 
     def _sift_up(self, index: int) -> None:
         """
         Recursive. Perform at most one swap, then recurse toward the
         correct resting position. Do not use a while loop.
         """
-        # TODO
-        raise NotImplementedError
+        if index == 0:
+            return
+        parent = (index - 1) // 2
+        if self._data[index] < self._data[parent]:
+            self._data[index], self._data[parent] = self._data[parent], self._data[index]
+            self._sift_up(parent)
 
     def _sift_down(self, index: int) -> None:
         """
         Recursive. Perform at most one swap, then recurse toward the
         correct resting position. Do not use a while loop.
         """
-        # TODO
-        raise NotImplementedError
+        left = 2 * index + 1
+        right = left + 1
+        smallest = index
+
+        if left < len(self._data) and self._data[left] < self._data[smallest]:
+            smallest = left
+        if right < len(self._data) and self._data[right] < self._data[smallest]:
+            smallest = right
+
+        if smallest != index:
+            self._data[index], self._data[smallest] = self._data[smallest], self._data[index]
+            self._sift_down(smallest)
 
     def extract_min(self) -> float:
         """
@@ -52,8 +66,14 @@ class MinHeap:
         Move the last element to the root and call _sift_down.
         Correctly handle a heap with 0 or 1 elements.
         """
-        # TODO
-        raise NotImplementedError
+        if not self._data:
+            raise IndexError("extract_min from empty heap")
+        minimum = self._data[0]
+        last = self._data.pop()
+        if self._data:
+            self._data[0] = last
+            self._sift_down(0)
+        return minimum
 
 
 # ============================== VERIFICATION SUITE ==============================
